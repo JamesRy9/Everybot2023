@@ -4,13 +4,22 @@
 
 package frc.robot.subsystems.drive;
 
+//import com.pathplanner.lib.PathPlannerTrajectory;
+//import com.pathplanner.lib.commands.PPRamseteCommand;
+
+//import edu.wpi.first.math.controller.PIDController;
+//import edu.wpi.first.math.controller.RamseteController;
+//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+//import edu.wpi.first.wpilibj2.command.Command;
+//import edu.wpi.first.wpilibj2.command.InstantCommand;
+//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.SwerveConstants; 
 import frc.robot.subsystems.gyro.GyroSubsystem;
 
 public class DriveBaseSubsystem extends SubsystemBase {
@@ -57,4 +66,29 @@ public class DriveBaseSubsystem extends SubsystemBase {
     positions[3] = getSwerveModule(3).getPosition();
     m_odometry.update(new Rotation2d(gyro.getAngle()), positions);
   }
+  /*
+  // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
+  public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+    return new SequentialCommandGroup(
+      new InstantCommand(() -> {
+        // Reset odometry for the first path you run during auto
+        if(isFirstPath){
+            this.resetOdometry(traj.getInitialPose());
+        }
+      }),
+      new PPRamseteCommand(
+          traj, 
+          this::getPose, // Pose supplier
+          new RamseteController(),
+          new SimpleMotorFeedforward(KS, KV, KA),
+          this.m_kinematics, // DifferentialDriveKinematics
+          this::getWheelSpeeds, // DifferentialDriveWheelSpeeds supplier
+          new PIDController(0, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+          new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
+          this::outputVolts, // Voltage biconsumer
+          true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+          this // Requires this drive subsystem
+      )
+    );
+  }*/
 }
